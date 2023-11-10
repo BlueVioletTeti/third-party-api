@@ -7,6 +7,7 @@ import com.vozniuk.thirdpartyapi.repository.CharacterRepository;
 import java.util.List;
 import java.util.Random;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,10 +25,10 @@ public class ShowCharacterServiceImpl implements ShowCharacterService {
     }
 
     @Override
-    public List<CharacterIntDto> getByName(String name) {
+    public List<CharacterIntDto> getByName(String name, Pageable pageable) {
         String lowerCaseName = name.toLowerCase();
         List<Character> characters = characterRepository
-                .findAllByNameContainsIgnoreCase(lowerCaseName);
+                .findAllByNameContainsIgnoreCase(lowerCaseName, pageable);
         return characters.stream()
                 .map(characterMapper::toDto)
                 .toList();
