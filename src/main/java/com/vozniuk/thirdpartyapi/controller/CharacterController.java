@@ -5,8 +5,8 @@ import com.vozniuk.thirdpartyapi.service.ShowCharacterServiceImpl;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,11 +23,11 @@ public class CharacterController {
         return service.getRandomCharacter();
     }
 
-    @GetMapping("/{searchValue}")
+    @GetMapping("/by-name")
     //@Operation(summary = "Get all characters whose name contain search value",
     //        description = "Get all characters whose name contain search value")
     //        --> ADD MAVEN DEPENDENCY!
-    public List<CharacterIntDto> getAllCharactersBySearchValue(@PathVariable String searchValue) {
-        return service.searchByName(searchValue);
+    public List<CharacterIntDto> getAllCharactersByName(@RequestParam String name) {
+        return service.getByName(name);
     }
 }

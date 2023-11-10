@@ -19,13 +19,15 @@ public class ShowCharacterServiceImpl implements ShowCharacterService {
     @Override
     public CharacterIntDto getRandomCharacter() {
         List<Character> characters = characterRepository.findAll();
-        int randomId = random.nextInt((int) characterRepository.count());
+        int randomId = random.nextInt(characters.size());
         return characterMapper.toDto(characters.get(randomId));
     }
 
     @Override
-    public List<CharacterIntDto> searchByName(String searchValue) {
-        List<Character> characters = characterRepository.findAllByNameContains(searchValue);
+    public List<CharacterIntDto> getByName(String name) {
+        String lowerCaseName = name.toLowerCase();
+        List<Character> characters = characterRepository
+                .findAllByNameContainsIgnoreCase(lowerCaseName);
         return characters.stream()
                 .map(characterMapper::toDto)
                 .toList();

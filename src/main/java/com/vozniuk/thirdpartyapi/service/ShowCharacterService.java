@@ -6,5 +6,5 @@ import java.util.List;
 public interface ShowCharacterService {
     CharacterIntDto getRandomCharacter();
 
-    List<CharacterIntDto> searchByName(String searchValue);
+    List<CharacterIntDto> getByName(String searchValue);
 }
