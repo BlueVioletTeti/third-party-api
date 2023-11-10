@@ -1,35 +1,34 @@
 package com.vozniuk.thirdpartyapi.controller;
 
-import com.vozniuk.thirdpartyapi.dto.external.characters.CharacterDto;
-import com.vozniuk.thirdpartyapi.service.ShowCharacterService;
+import com.vozniuk.thirdpartyapi.dto.internal.characters.CharacterIntDto;
+import com.vozniuk.thirdpartyapi.service.ShowCharacterServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/character")
 public class CharacterController {
-    private final ShowCharacterService service;
-
-    public CharacterController(ShowCharacterService service) {
-        this.service = service;
-    }
+    private final ShowCharacterServiceImpl service;
 
     @GetMapping("/random")
-    //@Operation(summary = "Get a random character",
-    //        description = "Get a random character from Rick and Morty")
-    //        --> ADD MAVEN DEPENDENCY!
-    public CharacterDto getRandomCharacter() {
+    @Operation(summary = "Get a random character",
+            description = "Get a random character from Rick and Morty")
+    public CharacterIntDto getRandomCharacter() {
         return service.getRandomCharacter();
     }
 
-    @GetMapping("/{searchValue}")
-    //@Operation(summary = "Get all characters whose name contain search value",
-    //        description = "Get all characters whose name contain search value")
-    //        --> ADD MAVEN DEPENDENCY!
-    public List<CharacterDto> getAllCharactersBySearchValue(@PathVariable String searchValue) {
-        return service.searchByName(searchValue);
+    @GetMapping("/by-name")
+    @Operation(summary = "Get all characters whose name contain search value",
+            description = "Get all characters whose name contain search value")
+    public List<CharacterIntDto> getAllCharactersByName(
+            @RequestParam String name, Pageable pageable) {
+        return service.getByName(name, pageable);
     }
 }
